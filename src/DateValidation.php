@@ -1,45 +1,47 @@
 <?php
+
 namespace ChristianBerkman\DateValidation;
 
 use \DateTime;
 use \DateTimeZone;
 
-class DateValidation{
+class DateValidation
+{
 	/**
 	 * Public static strings
 	 */
 	public static string $invalidDate = 'Invalid date.';
 
 	/**
-     * Checks for a valid date using a given format and returns a DateTime object, ignoring time information
+	 * Checks for a valid date using a given format and returns a DateTime object, ignoring time information
 	 * Based on CodeIgniter4/framework/sytem/Validation/FormatRules::valid_date
-     *
-     * @param string|null           $str
-     * @param non-empty-string|null $format
+	 *
+	 * @param string|null           $str
+	 * @param non-empty-string|null $format
 	 * @return DateTime|bool
-     */
-    public static function createDate(string $value, ?string $format = null): DateTime|bool
-    {
-        if ($value === '') {
-            return false;
-        }
-		
-        if ($format === null || $format === '') {
-			if (! strtotime($value)) return false;
+	 */
+	public static function createDate(string $value, ?string $format = null): DateTime|bool
+	{
+		if ($value === '') {
+			return false;
+		}
+
+		if ($format === null || $format === '') {
+			if (!strtotime($value)) return false;
 			$date = new DateTime($value);
-        } else {
+		} else {
 			$date = DateTime::createFromFormat($format, $value);
 		}
-		
-        if ($date === false) {
+
+		if ($date === false) {
 			return false;
-        }
-		
+		}
+
 		$errors = DateTime::getLastErrors();
 		if ($errors['warning_count'] !== 0 || $errors['error_count'] !== 0) return false;
-		
-		return $date->setTimeZone(new DateTimezone('UTC'))->setTime(0,0);
-    }
+
+		return $date->setTimeZone(new DateTimezone('UTC'))->setTime(0, 0);
+	}
 
 	/**
 	 * Return a DateTime object of today's date
@@ -48,9 +50,9 @@ class DateValidation{
 	 */
 	public static function today(): DateTime
 	{
-		return (new DateTime('today'))->setTimeZone(new DateTimezone('UTC'))->setTime(0,0);
+		return (new DateTime('today'))->setTimeZone(new DateTimezone('UTC'))->setTime(0, 0);
 	}
-	
+
 	/**
 	 * Validate if the value date is today or any date after today
 	 * Examples:
@@ -66,15 +68,13 @@ class DateValidation{
 	public function beginning_today(string $value, string $format, array $data, ?string &$error): bool
 	{
 		// Check value date
-		if (! $valueDate = static::createDate($value, $format))
-		{
+		if (!$valueDate = static::createDate($value, $format)) {
 			$error = static::$invalidDate;
 			return false;
 		}
 
 		// Compare value date to today
-		if ($valueDate->getTimestamp() < static::today()->getTimestamp())
-		{
+		if ($valueDate->getTimestamp() < static::today()->getTimestamp()) {
 			$error = "Date must be today or later.";
 			return false;
 		}
@@ -85,14 +85,12 @@ class DateValidation{
 	public function beginning_tomorrow(string $value, string $format, array $data, ?string &$error): bool
 	{
 		// Check value date
-		if (! $valueDate = static::createDate($value, $format))
-		{
+		if (!$valueDate = static::createDate($value, $format)) {
 			$error = static::$invalidDate;
 			return false;
 		}
 
-		if ($valueDate->getTimestamp() <= static::today()->getTimestamp())
-		{
+		if ($valueDate->getTimestamp() <= static::today()->getTimestamp()) {
 			$error = "Date must be tomorrow or later.";
 			return false;
 		}
@@ -100,4 +98,3 @@ class DateValidation{
 		return true;
 	}
 }
-	
