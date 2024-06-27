@@ -17,3 +17,5 @@ application/logs/*
 !application/logs/.htaccess
 /vendor/
 ci
+app/
+public/

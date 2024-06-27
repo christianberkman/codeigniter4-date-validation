@@ -2,9 +2,6 @@
     "name": "christianberkman/codeigniter4-date-validation",
     "description": "Custom validation library for the CodeIgnitor4 framework to validate and compare dates",
     "type": "library",
-    "require": {
-        "codeigniter4/framework": "^4.5"
-    },
     "license": "MIT",
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -18,5 +15,8 @@
             "name": "Christian Berkman",
             "email": "christianberkman@gmail.com"
         }
-    ]
+    ],
+    "require-dev": {
+        "codeigniter4/framework": "^4.5"
+    }
 }
