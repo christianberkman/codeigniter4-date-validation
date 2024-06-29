@@ -8,6 +8,7 @@ Custom validation library for the CodeIgniter4 framework to validate and compare
     - [ ] date_starting
     - [ ] date_after, date_before
     - [ ] date_ending
+    - [x] date_on_dow
 - [ ] Use CodeIgniter4 coding standard library
 - [ ] Create unit tests
 - [ ] Use languae files for errors
@@ -29,9 +30,14 @@ date_before_today[Y-m-d]
 
 // any on or after a given field date
 date_starting[date_arrival,Y-m-d]
+
+// any date on Monday (1) or Wednesday (3)
+date_on_dow[Y-m-d,1,3]
 ```
 ### Date Format
 When comparing the value date to a field date, both dates are assumed to be in the same format. All format parameters are optional. If the format paremeter is specified, the dates will be creaed using `DateTime::createFromFormat`. If the format paremeter is omitted, the date is created using `strtotime()`. It is reccommended to always specify a format.
+
+__Exception:__ The format parameter is required for the `date_on_dow` rule.
 
 ### Time information
 All time information is discarded, all times will be set to `00:00:00 UTC`.
@@ -49,8 +55,9 @@ Errors are dynamically returned by each rule, e.g. `Date must be before last_ava
 | date_after_today      | format        | Validates if the value date is after today                        | date_after_todat[Y-m-d]               |
 | date_before           | field, format | Validates if the value date is before a field date                | date_before[departure_date,Y-m-d]     |
 | date_ending           | field, format | Validates if the value date is on or before a field date          | date_ending[departure_date,Y-m-d]     |
-| date_starting         | field, format | Validates if the value date is on or after a field date           | date_starting[arrival_date,Y-m-d]    |
+| date_starting         | field, format | Validates if the value date is on or after a field date           | date_starting[arrival_date,Y-m-d]     |
 | date_after            | field, format | Validates if the value date is after a field date                 | date_after[date_of_birth,Y-m-d]       |
+| date_on_dow           | field, format | Validates if the value dat is on a given day of week (1-7)        | date_on_dow[Y-m-d,1,2,3,4,5]          |
 
 ## Full Example
 ```php

@@ -116,4 +116,48 @@ class DateValidation
  * ----------------------------------------------------
  */
 
+/**
+ * ----------------------------------------------------
+ * Other
+ * ----------------------------------------------------
+ */
+
+	/**
+	 * Validate if the value date is one of the listed weekdays
+	 *
+	 * @param string $value
+	 * @param string $params	format,dow1,dow2,...
+	 * @param array $data
+	 * @param string|null $error
+	 * @return boolean
+	 */
+ 	public function date_on_dow(string $value, string $params, array $data, ?string &$error): bool
+	{		
+		// Split params
+		$params = explode(',', $params);
+		$format = $params[0];
+		array_shift($params);
+		$weekdays = array_map('intval', $params);
+		
+
+		if (count($weekdays) === 0) return false;
+		
+		// Check value date
+		if (!$valueDate = static::createDate($value, $format)) {
+			$error = static::$invalidDate;
+			return false;
+		}
+
+		// Return true if value date is on a week day in $weekdays
+		$weekday = (int) $valueDate->format('N');
+		if(! in_array($weekday, $weekdays))
+		{
+			$error = 'Day of the week is not allowed';
+			return false;
+		}
+
+		return true;
+	}
+
+
 }
