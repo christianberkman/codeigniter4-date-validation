@@ -358,9 +358,9 @@ class DateValidation
 		// Split params
 		$params = explode(',', $params);
 		$format = $params[0];
+		if($format === 'none') $format = '';
 		array_shift($params);
 		$weekdays = array_map('intval', $params);
-		
 
 		if (count($weekdays) === 0) return false;
 		

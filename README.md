@@ -38,7 +38,7 @@ date_on_dow[Y-m-d,1,3]
 ### Date Format
 When comparing the value date to a field date, both dates are assumed to be in the same format. All format parameters are optional. If the format paremeter is specified, the dates will be creaed using `DateTime::createFromFormat`. If the format paremeter is omitted, the date is created using `strtotime()`. It is reccommended to always specify a format.
 
-__Exception:__ The format parameter is required for the `date_on_dow` rule.
+__Exception:__ The format parameter is required for the `date_on_dow` rule, `'none'` can be specified if you wish to not specify any format: `'today' -> date_on_dow[none,1]`
 
 ### Time information
 All time information is discarded, all times will be set to `00:00:00 UTC`.
