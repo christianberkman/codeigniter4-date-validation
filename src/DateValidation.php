@@ -61,10 +61,7 @@ class DateValidation
  */
 
 	/**
-	 * Validate if the value date is today or any date after today
-	 * Examples:
-	 * 		date_starting_today[Y-m-d]	value parsed by DateTime::createFromFormat()
-	 * 		date_starting_today[]       value parsed by strtotime()
+	 * Validates if the value date is on or after today
 	 *
 	 * @param string $value
 	 * @param string $format
@@ -82,7 +79,7 @@ class DateValidation
 
 		// Compare value date to today
 		if ($valueDate->getTimestamp() < static::today()->getTimestamp()) {
-			$error = "Date must be today or later.";
+			$error = "Date must be on or after today.";
 			return false;
 		}
 
@@ -90,10 +87,7 @@ class DateValidation
 	}
 
 	/**
-	 * Validate if the value date any date after today
-	 * Examples:
-	 * 		date_after_today[Y-m-d]	value parsed by DateTime::createFromFormat()
-	 * 		date_after_today[]      value parsed by strtotime()
+	 * Validates if the value date is after today
 	 *
 	 * @param string $value
 	 * @param string $format
@@ -110,7 +104,7 @@ class DateValidation
 		}
 
 		if ($valueDate->getTimestamp() <= static::today()->getTimestamp()) {
-			$error = "Date must be tomorrow or later.";
+			$error = "Date must be after today.";
 			return false;
 		}
 
