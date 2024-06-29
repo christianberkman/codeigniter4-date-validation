@@ -20,4 +20,12 @@ ci
 app/
 public/
 test.php
+
+#php-cs-fix
 .php-cs-fixer.cache
+
+#php unit
+build/
+.phpunit.cache/
+.phpunit.result.cache
+phpunit.dist.xml.bak

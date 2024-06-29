@@ -21,7 +21,8 @@
         "codeigniter4/devkit": "^1.2"
     },
     "scripts": {
-        "cs-fix": "php-cs-fixer fix src/"
+        "cs-fix": "php-cs-fixer fix src/",
+        "test": "phpunit"
     },
     "config": {
         "allow-plugins": {
