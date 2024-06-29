@@ -19,5 +19,8 @@
     "require-dev": {
         "codeigniter4/framework": "^4.5",
         "codeigniter/coding-standard": "^1.8"
+    },
+    "scripts": {
+        "cs-fix": "php-cs-fixer fix src/"
     }
 }
