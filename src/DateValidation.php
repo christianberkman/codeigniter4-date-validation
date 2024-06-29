@@ -79,6 +79,57 @@ class DateValidation
  * ----------------------------------------------------
  */
 
+ 	/**
+	 * Validates if the value date is before today
+	 *
+	 * @param string $value
+	 * @param string $format
+	 * @param array $data
+	 * @param string|null $error
+	 * @return bool
+	 */
+	public function date_before_today(string $value, string $format, array $data, ?string &$error): bool
+	{
+		// Check value date
+		if (!$valueDate = static::createDate($value, $format)) {
+			$error = static::$invalidDate;
+			return false;
+		}
+
+		if (! ($valueDate->getTimestamp() < static::today()->getTimestamp())) {
+			$error = 'Date must be before today.';
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Validates if the value date is on or before today
+	 *
+	 * @param string $value
+	 * @param string $format
+	 * @param array $data
+	 * @param string|null $error
+	 * @return bool
+	 */
+	public function date_ending_today(string $value, string $format, array $data, ?string &$error): bool
+	{
+		// Check value date
+		if (!$valueDate = static::createDate($value, $format)) {
+			$error = static::$invalidDate;
+			return false;
+		}
+
+		if (! ($valueDate->getTimestamp() <= static::today()->getTimestamp())) {
+			$error = 'Date must be on or before today.';
+			return false;
+		}
+
+		return true;
+	}
+
+
 	/**
 	 * Validates if the value date is on or after today
 	 *
@@ -129,6 +180,8 @@ class DateValidation
 
 		return true;
 	}
+
+	
 /**
  * ----------------------------------------------------
  * Comparing value date to a field date
