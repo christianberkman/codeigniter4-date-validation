@@ -20,3 +20,4 @@ ci
 app/
 public/
 test.php
+.php-cs-fixer.cache

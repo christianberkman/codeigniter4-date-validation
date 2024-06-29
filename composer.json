@@ -17,6 +17,7 @@
         }
     ],
     "require-dev": {
-        "codeigniter4/framework": "^4.5"
+        "codeigniter4/framework": "^4.5",
+        "codeigniter/coding-standard": "^1.8"
     }
 }
