@@ -284,7 +284,6 @@ class DateValidation
 			return false;
 		}
 
-
 		// Field date
 		if(! $fieldDate = static::createDate($fieldValue, $format))
 		{
@@ -294,6 +293,43 @@ class DateValidation
 
 		// Compare
 		if(! ($valueDate->getTimestamp() >= $fieldDate->getTimestamp()))
+		{
+			$error = "Date must be on or  after field: {$field}.";
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	* Validates if the value date is after a field date
+	*
+	* @param string $value
+	* @param string $params
+	* @param array $data			field,format
+	* @param string|null $error
+	* @return boolean
+	*/
+	public function date_after(string $value, string $params = '', array $data, ?string &$error): bool
+	{
+		static::splitParams($params, $data, $field, $fieldValue, $format);
+		
+		// Value date
+		if(! $valueDate = static::createDate($value, $format))
+		{
+			$error = static::$invalidDate;
+			return false;
+		}
+
+		// Field date
+		if(! $fieldDate = static::createDate($fieldValue, $format))
+		{
+			$error = static::$compareInvalid . $field;
+			return false;
+		}
+
+		// Compare
+		if(! ($valueDate->getTimestamp() > $fieldDate->getTimestamp()))
 		{
 			$error = "Date must be on or  after field: {$field}.";
 			return false;

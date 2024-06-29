@@ -2,13 +2,13 @@
 Custom validation library for the CodeIgniter4 framework to validate and compare dates.
 
 ## To Do
-- [ ] Add rules:
+- [x] Add rules:
     - [x] date_before_today
     - [x] date_ending_today
     - [x] date_before
     - [x] date_ending
     - [x] date_starting
-    - [ ] date_after
+    - [x] date_after
     - [x] date_on_dow
 - [ ] Use CodeIgniter4 coding standard library
 - [ ] Create unit tests
