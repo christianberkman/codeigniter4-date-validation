@@ -13,7 +13,8 @@ class DateValidation
 	public static string $invalidDate = 'Invalid date.';
 
 	/**
-	 * Checks for a valid date using a given format and returns a DateTime object, ignoring time information
+	 * Checks for a valid date using a given format and returns a DateTime object
+	 * Time information is discarded and set to midnight
 	 * Based on CodeIgniter4/framework/sytem/Validation/FormatRules::valid_date
 	 *
 	 * @param string|null           $str
@@ -44,7 +45,7 @@ class DateValidation
 	}
 
 	/**
-	 * Return a DateTime object of today's date
+	 * Return a DateTime object of today's date at midnight
 	 *
 	 * @return DateTime
 	 */
@@ -53,11 +54,17 @@ class DateValidation
 		return (new DateTime('today'))->setTimeZone(new DateTimezone('UTC'))->setTime(0, 0);
 	}
 
+/**
+ * ----------------------------------------------------
+ * Comparing value date to today
+ * ----------------------------------------------------
+ */
+
 	/**
 	 * Validate if the value date is today or any date after today
 	 * Examples:
-	 * 		beginning_today[Y-m-d]
-	 * 		beginning_today[]       value parsed by strtotime()
+	 * 		date_starting_today[Y-m-d]	value parsed by DateTime::createFromFormat()
+	 * 		date_starting_today[]       value parsed by strtotime()
 	 *
 	 * @param string $value
 	 * @param string $format
@@ -65,7 +72,7 @@ class DateValidation
 	 * @param string|null $error
 	 * @return bool
 	 */
-	public function beginning_today(string $value, string $format, array $data, ?string &$error): bool
+	public function date_starting_today(string $value, string $format, array $data, ?string &$error): bool
 	{
 		// Check value date
 		if (!$valueDate = static::createDate($value, $format)) {
@@ -82,7 +89,19 @@ class DateValidation
 		return true;
 	}
 
-	public function beginning_tomorrow(string $value, string $format, array $data, ?string &$error): bool
+	/**
+	 * Validate if the value date any date after today
+	 * Examples:
+	 * 		date_after_today[Y-m-d]	value parsed by DateTime::createFromFormat()
+	 * 		date_after_today[]      value parsed by strtotime()
+	 *
+	 * @param string $value
+	 * @param string $format
+	 * @param array $data
+	 * @param string|null $error
+	 * @return bool
+	 */
+	public function date_after_today(string $value, string $format, array $data, ?string &$error): bool
 	{
 		// Check value date
 		if (!$valueDate = static::createDate($value, $format)) {
@@ -97,4 +116,10 @@ class DateValidation
 
 		return true;
 	}
+/**
+ * ----------------------------------------------------
+ * Comparing value date to a field date
+ * ----------------------------------------------------
+ */
+
 }
