@@ -31,7 +31,7 @@ date_before_today[Y-m-d]
 date_starting[date_arrival,Y-m-d]
 ```
 ### Date Format
-Dates are assumed to be in the same format. All format parameters are optional. If the format paremeter is specified, the dates will be creaed using `DateTime::createFromFormat`. If the format paremeter is omitted, the date is created using `strtotime()`. It is reccommended to always specify a format.
+When comparing the value date to a field date, both dates are assumed to be in the same format. All format parameters are optional. If the format paremeter is specified, the dates will be creaed using `DateTime::createFromFormat`. If the format paremeter is omitted, the date is created using `strtotime()`. It is reccommended to always specify a format.
 
 ### Time information
 All time information is discarded, all times will be set to `00:00:00 UTC`.
