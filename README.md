@@ -65,7 +65,7 @@ $rules = [
     // arrival needs to be at earliest tomorrow
     'arrival_date' => 'date_after_today', 
     // excursion needs to be between (and not on) departure and arrival
-    'excursion_date' => 'date_after[arrival_date,Y-m-d]|date_before[depatrue_date,Y-m-d]' 
+    'excursion_date' => 'date_after[arrival_date,Y-m-d]|date_before[depatrue_date,Y-m-d]', 
     // departure needs to be after (and not on) the arrival date and before (and not on) the last available date
     'departure_date' => 'date_after[arrival_date,Y-m-d]|date_before[last_available_Date]', 
 ];
