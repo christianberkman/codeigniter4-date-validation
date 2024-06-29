@@ -188,82 +188,119 @@ class DateValidation
  * ----------------------------------------------------
  */
 
- /**
-  * Validates if the value date is before a field date
-  *
-  * @param string $value
-  * @param string $params
-  * @param array $data			field,format
-  * @param string|null $error
-  * @return boolean
-  */
- public function date_before(string $value, string $params = '', array $data, ?string &$error): bool
- {
-	static::splitParams($params, $data, $field, $fieldValue, $format);
+	/**
+	* Validates if the value date is before a field date
+	*
+	* @param string $value
+	* @param string $params
+	* @param array $data			field,format
+	* @param string|null $error
+	* @return boolean
+	*/
+	public function date_before(string $value, string $params = '', array $data, ?string &$error): bool
+	{
+		static::splitParams($params, $data, $field, $fieldValue, $format);
+		
+		// Value date
+		if(! $valueDate = static::createDate($value, $format))
+		{
+			$error = static::$invalidDate;
+			return false;
+		}
+
+
+		// Field date
+		if(! $fieldDate = static::createDate($fieldValue, $format))
+		{
+			$error = static::$compareInvalid . $field;
+			return false;
+		}
+
+		// Compare
+		if(! ($valueDate->getTimestamp() < $fieldDate->getTimestamp()))
+		{
+			$error = "Date must be before field: {$field}.";
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Validates if the value date is on or before a field date
+	*
+	* @param string $value
+	* @param string $params
+	* @param array $data			field,format
+	* @param string|null $error
+	* @return boolean
+	*/
+	public function date_ending(string $value, string $params = '', array $data, ?string &$error): bool
+	{
+		static::splitParams($params, $data, $field, $fieldValue, $format);
+		
+		// Value date
+		if(! $valueDate = static::createDate($value, $format))
+		{
+			$error = static::$invalidDate;
+			return false;
+		}
 	
-	// Value date
-	if(! $valueDate = static::createDate($value, $format))
-	{
-		$error = static::$invalidDate;
-		return false;
-	}
-
-
-	// Field date
-	if(! $fieldDate = static::createDate($fieldValue, $format))
-	{
-		$error = static::$compareInvalid . $field;
-		return false;
-	}
-
-	// Compare
-	if(! ($valueDate->getTimestamp() < $fieldDate->getTimestamp()))
-	{
-		$error = "Date must be before field: {$field}.";
-		return false;
-	}
-
-	return true;
- }
-
- /**
-  * Validates if the value date is on or before a field date
-  *
-  * @param string $value
-  * @param string $params
-  * @param array $data			field,format
-  * @param string|null $error
-  * @return boolean
-  */
-  public function date_ending(string $value, string $params = '', array $data, ?string &$error): bool
-  {
-	static::splitParams($params, $data, $field, $fieldValue, $format);
 	
-	// Value date
-	 if(! $valueDate = static::createDate($value, $format))
-	 {
-		 $error = static::$invalidDate;
-		 return false;
-	 }
- 
- 
-	 // Field date
-	 if(! $fieldDate = static::createDate($fieldValue, $format))
-	 {
-		 $error = static::$compareInvalid . $field;
-		 return false;
-	 }
- 
-	 // Compare
-	 if(! ($valueDate->getTimestamp() <= $fieldDate->getTimestamp()))
-	 {
-		 $error = "Date must be on or before field: {$field}.";
-		 return false;
-	 }
- 
-	 return true;
-  }
+		// Field date
+		if(! $fieldDate = static::createDate($fieldValue, $format))
+		{
+			$error = static::$compareInvalid . $field;
+			return false;
+		}
+	
+		// Compare
+		if(! ($valueDate->getTimestamp() <= $fieldDate->getTimestamp()))
+		{
+			$error = "Date must be on or before field: {$field}.";
+			return false;
+		}
+	
+		return true;
+	}
 
+	/**
+	* Validates if the value date is on or after a field date
+	*
+	* @param string $value
+	* @param string $params
+	* @param array $data			field,format
+	* @param string|null $error
+	* @return boolean
+	*/
+	public function date_starting(string $value, string $params = '', array $data, ?string &$error): bool
+	{
+		static::splitParams($params, $data, $field, $fieldValue, $format);
+		
+		// Value date
+		if(! $valueDate = static::createDate($value, $format))
+		{
+			$error = static::$invalidDate;
+			return false;
+		}
+
+
+		// Field date
+		if(! $fieldDate = static::createDate($fieldValue, $format))
+		{
+			$error = static::$compareInvalid . $field;
+			return false;
+		}
+
+		// Compare
+		if(! ($valueDate->getTimestamp() >= $fieldDate->getTimestamp()))
+		{
+			$error = "Date must be on or  after field: {$field}.";
+			return false;
+		}
+
+		return true;
+	}
 
 /**
  * ----------------------------------------------------
