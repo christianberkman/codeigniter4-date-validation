@@ -4,13 +4,20 @@ namespace ChristianBerkman\DateValidation;
 
 use \DateTime;
 use \DateTimeZone;
+use InvalidArgumentException;
 
 class DateValidation
 {
+/**
+ * ----------------------------------------------------
+ * Internal methods and properties
+ * ----------------------------------------------------
+ */
 	/**
 	 * Public static strings
 	 */
 	public static string $invalidDate = 'Invalid date.';
+	public static string $compareInvalid = 'Comparing to invalid date in field: ';
 
 	/**
 	 * Checks for a valid date using a given format and returns a DateTime object
@@ -41,7 +48,9 @@ class DateValidation
 		$errors = DateTime::getLastErrors();
 		if ($errors['warning_count'] !== 0 || $errors['error_count'] !== 0) return false;
 
-		return $date->setTimeZone(new DateTimezone('UTC'))->setTime(0, 0);
+		$date->setTimeZone(new DateTimezone('UTC'))->setTime(0, 0);
+		
+		return $date;
 	}
 
 	/**
@@ -52,6 +61,17 @@ class DateValidation
 	public static function today(): DateTime
 	{
 		return (new DateTime('today'))->setTimeZone(new DateTimezone('UTC'))->setTime(0, 0);
+	}
+
+	public static function splitParams(string $params, array $data = [], string &$field = null, string &$fieldValue = null, &$format = null): void
+	{
+		// Split params
+		$params = explode(',', $params);
+		$field = $params[0] ?? '';
+		if ($field === '') throw new InvalidArgumentException('You must supply the parameters: field.');
+		$format = $params[1] ?? '';
+
+		$fieldValue = dot_array_search($field, $data);
 	}
 
 /**
@@ -115,6 +135,44 @@ class DateValidation
  * Comparing value date to a field date
  * ----------------------------------------------------
  */
+
+ /**
+  * Validates if the value date is before a field date
+  *
+  * @param string $value
+  * @param string $params
+  * @param array $data			field,format
+  * @param string|null $error
+  * @return boolean
+  */
+ public function date_before(string $value, string $params = '', array $data, ?string &$error): bool
+ {
+	// Value date
+	if(! $valueDate = static::createDate($value))
+	{
+		$error = static::$invalidDate;
+		return false;
+	}
+
+	static::splitParams($params, $data, $field, $fieldValue, $format);
+
+	// Field date
+	if(! $fieldDate = static::createDate($fieldValue))
+	{
+		$error = static::$compareInvalid . $field;
+		return false;
+	}
+
+	// Compare
+	if(! $valueDate->getTimestamp() < $fieldDate->getTimestamp())
+	{
+		$error = "Date must be before field: {$field}.";
+		return false;
+	}
+
+	return true;
+ }
+
 
 /**
  * ----------------------------------------------------

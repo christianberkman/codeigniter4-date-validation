@@ -6,7 +6,8 @@ Custom validation library for the CodeIgniter4 framework to validate and compare
     - [ ] date_before_today
     - [ ] date_ending_today
     - [ ] date_starting
-    - [ ] date_after, date_before
+    - [ ] date_after
+    - [x] date_before
     - [ ] date_ending
     - [x] date_on_dow
 - [ ] Use CodeIgniter4 coding standard library
