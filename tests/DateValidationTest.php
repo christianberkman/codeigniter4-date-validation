@@ -20,6 +20,8 @@ use CodeIgniter\Validation\Validation;
 use Config\Services;
 use ChristianBerkman\DateValidation\DateValidation;
 use \DateTime;
+use InvalidArgumentException;
+use Psalm\Issue\InvalidArgument;
 
 /**
  * @internal
@@ -255,5 +257,14 @@ final class DateValidationTest extends CIUnitTestCase
         $rules = 'date_on_dow[Y-m-d,7]';
         $this->validation->setRules(['past_date' => $rules]);
         $this->assertFalse($this->validation->run($this->dates), 'date_on_dow.single-false');
+
+        $this->validation->reset();
+
+        $rules = 'date_on_dow[Y-m-d]';
+        $this->validation->setRules(['past_date' => $rules]);
+        $this->expectException(InvalidArgumentException::class);
+        $this->validation->run($this->dates);
+
+
     }
 }
