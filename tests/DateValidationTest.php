@@ -212,4 +212,22 @@ final class DateValidationTest extends CIUnitTestCase
         $this->validation->setRules(['excursion_date' => $rules]);
         $this->assertTrue($this->validation->run($this->dates), 'date_starting.arrival_date');
     }
+
+    public function testDateAfter(): void{
+        $rules = 'date_after[arrival_date,Y-m-d]';
+        $this->dates = $this->dates;
+
+        $this->validation->setRules(['past_date' => $rules]);
+        $this->assertFalse($this->validation->run($this->dates), 'date_after.past_date');
+        
+        $this->validation->reset();
+        
+        $this->validation->setRules(['arrival_date' => $rules]);
+        $this->assertFalse($this->validation->run($this->dates), 'date_after.arrival_date');
+        
+        $this->validation->reset();
+
+        $this->validation->setRules(['excursion_date' => $rules]);
+        $this->assertTrue($this->validation->run($this->dates), 'date_after.excursion_date');
+    }
 }
