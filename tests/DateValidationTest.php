@@ -34,12 +34,37 @@ final class DateValidationTest extends CIUnitTestCase
             DateValidation::class,
         ],
     ];
+    
+    private array $dates = [];
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->validation = $this->validation = new Validation((object) $this->config, Services::renderer());
         $this->validation->reset();
+
+        $this->dates = static::provideDates();
+    }
+
+    /**
+     * Generate dates for yesterday, today and tomorrow
+     * and pre-defined dates formatted as Y-m-d
+     */
+    public static function provideDates(): array
+    {
+        $today = new DateTime('today');
+        $yesterday = new DateTime('yesterday');
+        $tomorrow = new DateTime('tomorrow');
+
+        return [
+            'yesterday' => $yesterday->format('Y-m-d'),
+            'today' => $today->format('Y-m-d'),
+            'tomorrow' => $tomorrow->format('Y-m-d'),
+            'arrival_date' => '2024-07-01',
+            'excursion_date' => '2024-07-03',
+            'depatrue_date' => '2024-07-10',
+            'last_available_date' => '2027-08-09',
+        ];
     }
 
     public function testCreateDate(): void
@@ -62,27 +87,6 @@ final class DateValidationTest extends CIUnitTestCase
         $this->assertSame('fieldName', $field);
         $this->assertSame('fieldValue', $fieldValue);
         $this->assertSame('formatString', $format);
-    }
-
-    /**
-     * Generate dates for yesterday, today and tomorrow
-     * and pre-defined dates formatted as Y-m-d
-     */
-    public static function provideDates(): array
-    {
-        $today = new DateTime('today');
-        $yesterday = new DateTime('yesterday');
-        $tomorrow = new DateTime('tomorrow');
-
-        return [
-            'yesterday' => $yesterday->format('Y-m-d'),
-            'today' => $today->format('Y-m-d'),
-            'tomorrow' => $tomorrow->format('Y-m-d'),
-            'arrival_date' => '2024-07-01',
-            'excursion_date' => '2024-07-03',
-            'depatrue_date' => '2024-07-10',
-            'last_available_date' => '2027-08-09',
-        ];
     }
 
     public function testDateBeforeToday(): void
