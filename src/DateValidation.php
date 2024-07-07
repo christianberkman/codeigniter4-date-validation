@@ -323,8 +323,7 @@ class DateValidation
         // Split params
         $params = explode(',', $params);
 
-        if (count($params) === 0)
-        {
+        if (count($params) === 0) {
             throw new InvalidArgumentException('You must supply the parameters: format, days of week.');
         }
 

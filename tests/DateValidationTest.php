@@ -166,8 +166,7 @@ final class DateValidationTest extends CIUnitTestCase
 
     public function testDateBefore(): void{
         $rules = 'date_before[last_available_date,Y-m-d]';
-        $this->dates = $this->dates;
-
+        
         $this->validation->setRules(['arrival_date' => $rules]);
         $this->assertTrue($this->validation->run($this->dates), 'date_before.arrival_date');
 
@@ -175,12 +174,16 @@ final class DateValidationTest extends CIUnitTestCase
 
         $this->validation->setRules(['far_future_date' => $rules]);
         $this->assertFalse($this->validation->run($this->dates), 'date_before.far_future_date');
+
+        $this->validation->reset();
+
+        $this->validation->setRules(['last_available_date' => $rules]);
+        $this->assertFalse($this->validation->run($this->dates), 'date_before.far_future_date');
     }
 
     public function testDateEnding(): void{
         $rules = 'date_ending[last_available_date,Y-m-d]';
-        $this->dates = $this->dates;
-
+        
         $this->validation->setRules(['arrival_date' => $rules]);
         $this->assertTrue($this->validation->run($this->dates), 'date_ending.arrival_date');
 
@@ -197,8 +200,7 @@ final class DateValidationTest extends CIUnitTestCase
 
     public function testDateStarting(): void{
         $rules = 'date_starting[arrival_date,Y-m-d]';
-        $this->dates = $this->dates;
-
+        
         $this->validation->setRules(['past_date' => $rules]);
         $this->assertFalse($this->validation->run($this->dates), 'date_starting.past_date');
         
@@ -215,8 +217,7 @@ final class DateValidationTest extends CIUnitTestCase
 
     public function testDateAfter(): void{
         $rules = 'date_after[arrival_date,Y-m-d]';
-        $this->dates = $this->dates;
-
+        
         $this->validation->setRules(['past_date' => $rules]);
         $this->assertFalse($this->validation->run($this->dates), 'date_after.past_date');
         
