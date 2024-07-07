@@ -64,6 +64,7 @@ final class DateValidationTest extends CIUnitTestCase
             'excursion_date' => '2024-07-03',
             'depatrue_date' => '2024-07-10',
             'last_available_date' => '2027-08-09',
+            'far_future_date' => '2100-01-01',
         ];
     }
 
@@ -163,5 +164,18 @@ final class DateValidationTest extends CIUnitTestCase
 
         $this->validation->setRules(['tomorrow' => $rules]);
         $this->assertTrue($this->validation->run($data), 'tomorrow');
+    }
+
+    public function testDateBefore(): void{
+        $rules = 'date_before[last_available_date,Y-m-d]';
+        $data = $this->dates;
+
+        $this->validation->setRules(['arrival_date' => $rules]);
+        $this->assertTrue($this->validation->run($data), 'date_before.arrival_date');
+
+        $this->validation->reset();
+
+        $this->validation->setRules(['far_future_date' => $rules]);
+        $this->assertFalse($this->validation->run($data), 'date_before.far_future_date');
     }
 }
