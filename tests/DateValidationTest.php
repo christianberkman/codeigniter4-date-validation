@@ -44,7 +44,8 @@ final class DateValidationTest extends CIUnitTestCase
         $this->validation->reset();
 
         $this->dates = static::provideDates();
-    }
+
+        }
 
     /**
      * Generate dates for yesterday, today and tomorrow
@@ -81,9 +82,9 @@ final class DateValidationTest extends CIUnitTestCase
     public function testSplitParams(): void
     {
         $params = 'fieldName,formatString';
-        $data = ['fieldName' => 'fieldValue'];
+        $this->dates = ['fieldName' => 'fieldValue'];
         
-        DateValidation::splitParams($params, $data, $field, $fieldValue, $format);
+        DateValidation::splitParams($params, $this->dates, $field, $fieldValue, $format);
 
         $this->assertSame('fieldName', $field);
         $this->assertSame('fieldValue', $fieldValue);
@@ -93,89 +94,85 @@ final class DateValidationTest extends CIUnitTestCase
     public function testDateBeforeToday(): void
     {        
         $rules = 'date_before_today[Y-m-d]';
-        $data = static::provideDates();
-        
+                
         $this->validation->setRules(['yesterday' => $rules]);
-        $this->assertTrue($this->validation->run($data), 'yesterday');
+        $this->assertTrue($this->validation->run($this->dates), 'yesterday');
 
         $this->validation->reset();
 
         $this->validation->setRules(['today' => $rules]);
-        $this->assertFalse($this->validation->run($data), 'today');
+        $this->assertFalse($this->validation->run($this->dates), 'today');
 
         $this->validation->reset();
 
         $this->validation->setRules(['tomorrow' => $rules]);
-        $this->assertFalse($this->validation->run($data), 'tomorrow');
+        $this->assertFalse($this->validation->run($this->dates), 'tomorrow');
     }
 
     public function testDateEndingToday(): void
     {        
         $rules = 'date_ending_today[Y-m-d]';
-        $data = static::provideDates();
-        
+                
         $this->validation->setRules(['yesterday' => $rules]);
-        $this->assertTrue($this->validation->run($data), 'yesterday');
+        $this->assertTrue($this->validation->run($this->dates), 'yesterday');
 
         $this->validation->reset();
 
         $this->validation->setRules(['today' => $rules]);
-        $this->assertTrue($this->validation->run($data), 'today');
+        $this->assertTrue($this->validation->run($this->dates), 'today');
 
         $this->validation->reset();
 
         $this->validation->setRules(['tomorrow' => $rules]);
-        $this->assertFalse($this->validation->run($data), 'tomorrow');
+        $this->assertFalse($this->validation->run($this->dates), 'tomorrow');
     }
 
     public function testDateStartingToday(): void
     {        
         $rules = 'date_starting_today[Y-m-d]';
-        $data = static::provideDates();
-        
+                
         $this->validation->setRules(['yesterday' => $rules]);
-        $this->assertFalse($this->validation->run($data), 'yesterday');
+        $this->assertFalse($this->validation->run($this->dates), 'yesterday');
 
         $this->validation->reset();
 
         $this->validation->setRules(['today' => $rules]);
-        $this->assertTrue($this->validation->run($data), 'today');
+        $this->assertTrue($this->validation->run($this->dates), 'today');
 
         $this->validation->reset();
 
         $this->validation->setRules(['tomorrow' => $rules]);
-        $this->assertTrue($this->validation->run($data), 'tomorrow');
+        $this->assertTrue($this->validation->run($this->dates), 'tomorrow');
     }
 
     public function testDateAfterToday(): void
     {        
         $rules = 'date_after_today[Y-m-d]';
-        $data = static::provideDates();
-        
+                
         $this->validation->setRules(['yesterday' => $rules]);
-        $this->assertFalse($this->validation->run($data), 'yesterday');
+        $this->assertFalse($this->validation->run($this->dates), 'yesterday');
 
         $this->validation->reset();
 
         $this->validation->setRules(['today' => $rules]);
-        $this->assertFalse($this->validation->run($data), 'today');
+        $this->assertFalse($this->validation->run($this->dates), 'today');
 
         $this->validation->reset();
 
         $this->validation->setRules(['tomorrow' => $rules]);
-        $this->assertTrue($this->validation->run($data), 'tomorrow');
+        $this->assertTrue($this->validation->run($this->dates), 'tomorrow');
     }
 
     public function testDateBefore(): void{
         $rules = 'date_before[last_available_date,Y-m-d]';
-        $data = $this->dates;
+        $this->dates = $this->dates;
 
         $this->validation->setRules(['arrival_date' => $rules]);
-        $this->assertTrue($this->validation->run($data), 'date_before.arrival_date');
+        $this->assertTrue($this->validation->run($this->dates), 'date_before.arrival_date');
 
         $this->validation->reset();
 
         $this->validation->setRules(['far_future_date' => $rules]);
-        $this->assertFalse($this->validation->run($data), 'date_before.far_future_date');
+        $this->assertFalse($this->validation->run($this->dates), 'date_before.far_future_date');
     }
 }
