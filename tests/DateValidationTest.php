@@ -61,12 +61,12 @@ final class DateValidationTest extends CIUnitTestCase
             'yesterday' => $yesterday->format('Y-m-d'),
             'today' => $today->format('Y-m-d'),
             'tomorrow' => $tomorrow->format('Y-m-d'),
-            'past_date' => '1989-03-11',
+            'past_date' => '1989-03-11', // Saturday (6)
             'arrival_date' => '2024-07-01',
             'excursion_date' => '2024-07-03',
             'depatrue_date' => '2024-07-10',
             'last_available_date' => '2027-08-09',
-            'far_future_date' => '2100-01-01',
+            'far_future_date' => '2100-01-01', // Friday (5)
         ];
     }
 
@@ -229,5 +229,30 @@ final class DateValidationTest extends CIUnitTestCase
 
         $this->validation->setRules(['excursion_date' => $rules]);
         $this->assertTrue($this->validation->run($this->dates), 'date_after.excursion_date');
+    }
+
+    public function testDateOnDOW(): void
+    {
+        $rules = 'date_on_dow[Y-m-d,6]';
+        $this->validation->setRules(['past_date' => $rules]);
+        $this->assertTrue($this->validation->run($this->dates), 'date_on_dow.single-true');
+        
+        $this->validation->reset();
+
+        $rules = 'date_on_dow[Y-m-d,5,6]';
+        $this->validation->setRules(['far_future_date' => $rules]);
+        $this->assertTrue($this->validation->run($this->dates), 'date_on_dow.multi-true');
+        
+        $this->validation->reset();
+
+        $rules = 'date_on_dow[Y-m-d,1,2,3,4,5,7]';
+        $this->validation->setRules(['past_date' => $rules]);
+        $this->assertFalse($this->validation->run($this->dates), 'date_on_dow.multi-false');
+
+        $this->validation->reset();
+
+        $rules = 'date_on_dow[Y-m-d,7]';
+        $this->validation->setRules(['past_date' => $rules]);
+        $this->assertFalse($this->validation->run($this->dates), 'date_on_dow.single-false');
     }
 }
