@@ -175,4 +175,22 @@ final class DateValidationTest extends CIUnitTestCase
         $this->validation->setRules(['far_future_date' => $rules]);
         $this->assertFalse($this->validation->run($this->dates), 'date_before.far_future_date');
     }
+
+    public function testDateEnding(): void{
+        $rules = 'date_ending[last_available_date,Y-m-d]';
+        $this->dates = $this->dates;
+
+        $this->validation->setRules(['arrival_date' => $rules]);
+        $this->assertTrue($this->validation->run($this->dates), 'date_ending.arrival_date');
+
+        $this->validation->reset();
+
+        $this->validation->setRules(['last_available_date' => $rules]);
+        $this->assertTrue($this->validation->run($this->dates), 'date_ending.arrival_date');
+
+        $this->validation->reset();
+
+        $this->validation->setRules(['far_future_date' => $rules]);
+        $this->assertFalse($this->validation->run($this->dates), 'date_ending.far_future_date');
+    }
 }
