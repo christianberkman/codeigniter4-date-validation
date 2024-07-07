@@ -4,7 +4,7 @@ Custom validation library for the CodeIgniter4 framework to validate and compare
 ## To Do
 - [x] Add rules:
 - [x] Use CodeIgniter4 coding standard library
-- [ ] Create unit tests
+- [x] Create unit tests
 - [ ] Use languae files for errors
 
 ## Installation
