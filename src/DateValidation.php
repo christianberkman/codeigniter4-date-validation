@@ -322,6 +322,12 @@ class DateValidation
     {
         // Split params
         $params = explode(',', $params);
+
+        if (count($params) === 0)
+        {
+            throw new InvalidArgumentException('You must supply the parameters: format, days of week.');
+        }
+
         $format = $params[0];
         if ($format === 'none') {
             $format = '';
@@ -330,7 +336,7 @@ class DateValidation
         $weekdays = array_map('intval', $params);
 
         if (count($weekdays) === 0) {
-            return false;
+            throw new InvalidArgumentException('You must supply the parameter: days of week.');
         }
 
         // Check value date
