@@ -71,12 +71,12 @@ final class DateValidationTest extends CIUnitTestCase
 
     public function testCreateDate(): void
     {
-        $this->assertInstanceOf('DateTime', DateValidation::createDate('2024-03-11', 'Y-m-d'));
+        $this->assertInstanceOf('DateTime', DateValidation::createDate('2024-03-11', 'Y-m-d'), 'createDate');
     }
 
     public function testToday(): void
     {
-        $this->assertInstanceOf('DateTime', DateValidation::today());
+        $this->assertInstanceOf('DateTime', DateValidation::today(), 'today');
     }
 
     public function testSplitParams(): void
@@ -86,9 +86,9 @@ final class DateValidationTest extends CIUnitTestCase
         
         DateValidation::splitParams($params, $this->dates, $field, $fieldValue, $format);
 
-        $this->assertSame('fieldName', $field);
-        $this->assertSame('fieldValue', $fieldValue);
-        $this->assertSame('formatString', $format);
+        $this->assertSame('fieldName', $field, 'splitParams.fieldName');
+        $this->assertSame('fieldValue', $fieldValue, 'splitParams.fieldValue');
+        $this->assertSame('formatString', $format, 'splitParams.formatString');
     }
 
     public function testDateBeforeToday(): void
@@ -96,17 +96,17 @@ final class DateValidationTest extends CIUnitTestCase
         $rules = 'date_before_today[Y-m-d]';
                 
         $this->validation->setRules(['yesterday' => $rules]);
-        $this->assertTrue($this->validation->run($this->dates), 'yesterday');
+        $this->assertTrue($this->validation->run($this->dates), 'date_before_today.yesterday');
 
         $this->validation->reset();
 
         $this->validation->setRules(['today' => $rules]);
-        $this->assertFalse($this->validation->run($this->dates), 'today');
+        $this->assertFalse($this->validation->run($this->dates), 'date_before_today.today');
 
         $this->validation->reset();
 
         $this->validation->setRules(['tomorrow' => $rules]);
-        $this->assertFalse($this->validation->run($this->dates), 'tomorrow');
+        $this->assertFalse($this->validation->run($this->dates), 'date_before_today.tomorrow');
     }
 
     public function testDateEndingToday(): void
@@ -114,17 +114,17 @@ final class DateValidationTest extends CIUnitTestCase
         $rules = 'date_ending_today[Y-m-d]';
                 
         $this->validation->setRules(['yesterday' => $rules]);
-        $this->assertTrue($this->validation->run($this->dates), 'yesterday');
+        $this->assertTrue($this->validation->run($this->dates), 'date_ending_today.yesterday');
 
         $this->validation->reset();
 
         $this->validation->setRules(['today' => $rules]);
-        $this->assertTrue($this->validation->run($this->dates), 'today');
+        $this->assertTrue($this->validation->run($this->dates), 'date_ending_today.today');
 
         $this->validation->reset();
 
         $this->validation->setRules(['tomorrow' => $rules]);
-        $this->assertFalse($this->validation->run($this->dates), 'tomorrow');
+        $this->assertFalse($this->validation->run($this->dates), 'date_ending_today.tomorrow');
     }
 
     public function testDateStartingToday(): void
@@ -132,17 +132,17 @@ final class DateValidationTest extends CIUnitTestCase
         $rules = 'date_starting_today[Y-m-d]';
                 
         $this->validation->setRules(['yesterday' => $rules]);
-        $this->assertFalse($this->validation->run($this->dates), 'yesterday');
+        $this->assertFalse($this->validation->run($this->dates), 'date_starting_today.yesterday');
 
         $this->validation->reset();
 
         $this->validation->setRules(['today' => $rules]);
-        $this->assertTrue($this->validation->run($this->dates), 'today');
+        $this->assertTrue($this->validation->run($this->dates), 'date_starting_today.today');
 
         $this->validation->reset();
 
         $this->validation->setRules(['tomorrow' => $rules]);
-        $this->assertTrue($this->validation->run($this->dates), 'tomorrow');
+        $this->assertTrue($this->validation->run($this->dates), 'date_starting_today.tomorrow');
     }
 
     public function testDateAfterToday(): void
@@ -150,17 +150,17 @@ final class DateValidationTest extends CIUnitTestCase
         $rules = 'date_after_today[Y-m-d]';
                 
         $this->validation->setRules(['yesterday' => $rules]);
-        $this->assertFalse($this->validation->run($this->dates), 'yesterday');
+        $this->assertFalse($this->validation->run($this->dates), 'date_after_today.yesterday');
 
         $this->validation->reset();
 
         $this->validation->setRules(['today' => $rules]);
-        $this->assertFalse($this->validation->run($this->dates), 'today');
+        $this->assertFalse($this->validation->run($this->dates), 'date_after_today.today');
 
         $this->validation->reset();
 
         $this->validation->setRules(['tomorrow' => $rules]);
-        $this->assertTrue($this->validation->run($this->dates), 'tomorrow');
+        $this->assertTrue($this->validation->run($this->dates), 'date_after_today.tomorrow');
     }
 
     public function testDateBefore(): void{
