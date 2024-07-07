@@ -145,4 +145,23 @@ final class DateValidationTest extends CIUnitTestCase
         $this->validation->setRules(['tomorrow' => $rules]);
         $this->assertTrue($this->validation->run($data), 'tomorrow');
     }
+
+    public function testDateAfterToday(): void
+    {        
+        $rules = 'date_after_today[Y-m-d]';
+        $data = static::provideDates();
+        
+        $this->validation->setRules(['yesterday' => $rules]);
+        $this->assertFalse($this->validation->run($data), 'yesterday');
+
+        $this->validation->reset();
+
+        $this->validation->setRules(['today' => $rules]);
+        $this->assertFalse($this->validation->run($data), 'today');
+
+        $this->validation->reset();
+
+        $this->validation->setRules(['tomorrow' => $rules]);
+        $this->assertTrue($this->validation->run($data), 'tomorrow');
+    }
 }
