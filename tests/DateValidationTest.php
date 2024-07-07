@@ -61,6 +61,7 @@ final class DateValidationTest extends CIUnitTestCase
             'yesterday' => $yesterday->format('Y-m-d'),
             'today' => $today->format('Y-m-d'),
             'tomorrow' => $tomorrow->format('Y-m-d'),
+            'past_date' => '1989-03-11',
             'arrival_date' => '2024-07-01',
             'excursion_date' => '2024-07-03',
             'depatrue_date' => '2024-07-10',
@@ -192,5 +193,23 @@ final class DateValidationTest extends CIUnitTestCase
 
         $this->validation->setRules(['far_future_date' => $rules]);
         $this->assertFalse($this->validation->run($this->dates), 'date_ending.far_future_date');
+    }
+
+    public function testDateStarting(): void{
+        $rules = 'date_starting[arrival_date,Y-m-d]';
+        $this->dates = $this->dates;
+
+        $this->validation->setRules(['past_date' => $rules]);
+        $this->assertFalse($this->validation->run($this->dates), 'date_starting.past_date');
+        
+        $this->validation->reset();
+        
+        $this->validation->setRules(['arrival_date' => $rules]);
+        $this->assertTrue($this->validation->run($this->dates), 'date_ending.arrival_date');
+        
+        $this->validation->reset();
+
+        $this->validation->setRules(['excursion_date' => $rules]);
+        $this->assertTrue($this->validation->run($this->dates), 'date_starting.arrival_date');
     }
 }
