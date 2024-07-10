@@ -51,7 +51,7 @@ Errors are dynamically returned by each rule, e.g. `Date must be before last_ava
 | date_ending           | field, format | Validates if the value date is on or before a field date          | date_ending[departure_date,Y-m-d]     |
 | date_starting         | field, format | Validates if the value date is on or after a field date           | date_starting[arrival_date,Y-m-d]     |
 | date_after            | field, format | Validates if the value date is after a field date                 | date_after[date_of_birth,Y-m-d]       |
-| date_on_dow           | field, format | Validates if the value dat is on a given day of week (1-7)        | date_on_dow[Y-m-d,1,2,3,4,5]          |
+| date_on_dow           | format, days of week | Validates if the value date is on a given day of week starting Monday (1-7)       | date_on_dow[Y-m-d,1,2,3,4,5]          |
 
 ## Full Example
 ```php
