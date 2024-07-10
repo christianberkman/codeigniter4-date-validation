@@ -78,6 +78,12 @@ class DateValidation
         $fieldValue = dot_array_search($field, $data);
     }
 
+    protected function getErrorMessage(string $rule, array $vars = []): string
+    {
+        return lang("DateValidation.{$rule}");
+    }
+
+
     /**
      * ----------------------------------------------------
      * Comparing value date to today
@@ -91,14 +97,12 @@ class DateValidation
     {
         // Check value date
         if (! $valueDate = static::createDate($value, $format)) {
-            $error = static::$invalidDate;
-
+            $error = $this->getErrorMessage('invalid_date');
             return false;
         }
 
         if (! ($valueDate->getTimestamp() < static::today()->getTimestamp())) {
-            $error = 'Date must be before today.';
-
+            $error = $this->getErrorMessage('date_before_today');
             return false;
         }
 
@@ -112,14 +116,12 @@ class DateValidation
     {
         // Check value date
         if (! $valueDate = static::createDate($value, $format)) {
-            $error = static::$invalidDate;
-
+            $error = $this->getErrorMessage('invalid_date');
             return false;
         }
 
         if (! ($valueDate->getTimestamp() <= static::today()->getTimestamp())) {
-            $error = 'Date must be on or before today.';
-
+            $error = $this->getErrorMessage('date_ending_today');
             return false;
         }
 
@@ -133,15 +135,13 @@ class DateValidation
     {
         // Check value date
         if (! $valueDate = static::createDate($value, $format)) {
-            $error = static::$invalidDate;
-
+            $error = $this->getErrorMessage('invalid_date');
             return false;
         }
 
         // Compare value date to today
         if ($valueDate->getTimestamp() < static::today()->getTimestamp()) {
-            $error = 'Date must be on or after today.';
-
+            $error = $this->getErrorMessage('date_starting_today');
             return false;
         }
 
@@ -155,14 +155,12 @@ class DateValidation
     {
         // Check value date
         if (! $valueDate = static::createDate($value, $format)) {
-            $error = static::$invalidDate;
-
+            $error = $this->getErrorMessage('invalid_date');
             return false;
         }
 
         if ($valueDate->getTimestamp() <= static::today()->getTimestamp()) {
-            $error = 'Date must be after today.';
-
+            $error = $this->getErrorMessage('date_after_today');
             return false;
         }
 
@@ -186,8 +184,7 @@ class DateValidation
 
         // Value date
         if (! $valueDate = static::createDate($value, $format)) {
-            $error = static::$invalidDate;
-
+            $error = $this->getErrorMessage('invalid_date');
             return false;
         }
 
@@ -219,8 +216,7 @@ class DateValidation
 
         // Value date
         if (! $valueDate = static::createDate($value, $format)) {
-            $error = static::$invalidDate;
-
+            $error = $this->getErrorMessage('invalid_date');
             return false;
         }
 
@@ -252,8 +248,7 @@ class DateValidation
 
         // Value date
         if (! $valueDate = static::createDate($value, $format)) {
-            $error = static::$invalidDate;
-
+            $error = $this->getErrorMessage('invalid_date');
             return false;
         }
 
@@ -285,8 +280,7 @@ class DateValidation
 
         // Value date
         if (! $valueDate = static::createDate($value, $format)) {
-            $error = static::$invalidDate;
-
+            $error = $this->getErrorMessage('invalid_date');
             return false;
         }
 
@@ -340,8 +334,7 @@ class DateValidation
 
         // Check value date
         if (! $valueDate = static::createDate($value, $format)) {
-            $error = static::$invalidDate;
-
+            $error = $this->getErrorMessage('invalid_date');
             return false;
         }
 
